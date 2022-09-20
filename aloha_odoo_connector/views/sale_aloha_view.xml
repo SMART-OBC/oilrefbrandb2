@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='payment_term_id']" position="after">
                 <field name="aloha_file_path" invisible="1"/>
+                <field name="aloha_date" invisible="0"/>
             </xpath>
         </field>
     </record>

@@ -14,6 +14,10 @@ import openpyxl
 import xlsxwriter
 import base64
 import io
+import datetime
+from datetime import timedelta
+
+
 
 class Sale(models.Model):
     _inherit = "sale.order"
@@ -21,7 +25,7 @@ class Sale(models.Model):
     aloha_file_path = fields.Char("Aloha File Path",copy=False,help='File Path Of Aloha XLSX')
     worksheet_name = fields.Char("Worksheet Name",copy=False,help="Give a worksheet name")
     aloha_connection_done = fields.Boolean("Aloha Connection Done",default=False,copy=False)
-    xls_file = fields.Binary("")
+    aloha_date = fields.Date("Aloha Date")
 
     def get_remote_csv(self):
         def make_directory(new_dir):
@@ -37,7 +41,6 @@ class Sale(models.Model):
         csv_dir_path = os.path.join(odoo_dir, "CSV")
         if not os.path.exists(csv_dir_path):
             make_directory(csv_dir_path)
-        import datetime
         pre_date = datetime.datetime.today() - datetime.timedelta(days=1)
         today_date = pre_date.strftime("%Y%m%d")
         new_csv_file_name = today_date+'.csv'
@@ -74,10 +77,11 @@ class Sale(models.Model):
     #Fetch data from xlsx and add line in current sale order
     def get_aloha_line(self):
         dummy_aloha_file_path,xlsx_dir_path,dummy_aloha_inv_file_path = self.get_remote_csv()
-
+        sale_date = fields.Datetime.now()- timedelta(days=1)
+        formated = sale_date.strftime("%m/%d/%Y %H:%M:%S")
+        now = datetime.datetime.strptime(formated, "%m/%d/%Y %H:%M:%S")
         if dummy_aloha_file_path and xlsx_dir_path:
-            new_order_id = self.env['sale.order'].create({'partner_id':3})
-            import datetime
+            new_order_id = self.env['sale.order'].create({'partner_id':3,'aloha_date':now})
             pre_date = datetime.datetime.today() - datetime.timedelta(days=1)
             today_date = pre_date.strftime("%Y%m%d")
             csv_data = []
@@ -133,6 +137,7 @@ class Sale(models.Model):
             new_order_id.action_confirm()
             new_order_id._create_invoices()
             for invoice in new_order_id.invoice_ids:
+                invoice.write({'invoice_date':new_order_id.aloha_date})
                 invoice.action_post()
                 self.get_invoice_payment(dummy_aloha_inv_file_path,xlsx_dir_path,invoice)
            
@@ -200,7 +205,7 @@ class Sale(models.Model):
                     if float(row1[0].value) > 0:
 
                         payment = self.env['account.payment'].create({'payment_type' :'inbound',
-                            'partner_id' : 14,
+                            'partner_id' : invoice.partner_id.id,
                             'amount' : float(row1[4].value),
                             "ref" : invoice.name,
                             "journal_id":acc_jr_id.id})
