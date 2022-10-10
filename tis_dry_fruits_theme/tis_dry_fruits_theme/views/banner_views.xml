@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <menuitem name="Dry Fruits Theme"
+              id="dry_fruits_theme_root"
+              parent="website.menu_website_configuration"
+              sequence="1"/>
+
+
+    <record id="action_dry_fruits_banner1_views" model="ir.actions.act_window">
+        <field name="name">Home Banner</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">home.banner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Click to create Banner
+            </p>
+        </field>
+    </record>
+
+    <record id="action_dry_fruits_banner2_views" model="ir.actions.act_window">
+        <field name="name">Offers</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">offer.one</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Click to create Banner
+            </p>
+        </field>
+    </record>
+    <record id="action_dry_fruits_weekly_offer" model="ir.actions.act_window">
+        <field name="name">Weekly Offers</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">weekly.offer</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Click to create Offer
+            </p>
+        </field>
+    </record>
+
+    <record id="action_dry_fruits_banner3_views" model="ir.actions.act_window">
+        <field name="name">Offer Two</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">offer.two</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Click to create Banner
+            </p>
+        </field>
+    </record>
+
+    <record id="action_dry_fruits_banner4_views" model="ir.actions.act_window">
+        <field name="name">Half Banner</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">half.banner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Click to create Banner
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem action="action_dry_fruits_banner1_views" id="dry_fruits_banner1" name="Home Banner"
+              parent="dry_fruits_theme_root" sequence="1"/>
+
+
+    <menuitem action="action_dry_fruits_banner2_views" id="dry_fruits_banner2" name="Offer"
+              parent="dry_fruits_theme_root" sequence="2"/>
+
+    <!--    <menuitem action="action_dry_fruits_banner3_views" id="dry_fruits_banner3" name="Offer Two"-->
+    <!--              parent="dry_fruits_theme_root" sequence="1"/>-->
+
+    <menuitem action="action_dry_fruits_banner4_views" id="dry_fruits_banner4" name="Half Banner"
+              parent="dry_fruits_theme_root" sequence="3"/>
+
+    <menuitem action="action_dry_fruits_weekly_offer" id="dry_fruits_weekly_offer_menu" name="Weekly Offer"
+              parent="dry_fruits_theme_root" sequence="3"/>
+
+
+    <record id="dry_fruits_banner1_form" model="ir.ui.view">
+        <field name="name">dry.fruits.banner1.form</field>
+        <field name="model">home.banner</field>
+        <field name="priority" eval="20"/>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="image1" widget="image" class="oe_avatar oe_left"/>
+                        </group>
+                        <group>
+                            <field name="header"/>
+                            <field name="footer"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="dry_fruits_banner2_form" model="ir.ui.view">
+        <field name="name">dry.fruits.banner2.form</field>
+        <field name="model">offer.one</field>
+        <field name="priority" eval="20"/>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="image1" widget="image" class="oe_avatar oe_left"/>
+                        </group>
+                        <group>
+                            <field name="header"/>
+
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="dry_fruits_weekly_offer" model="ir.ui.view">
+        <field name="name">dry.fruits.weekly.offer</field>
+        <field name="model">weekly.offer</field>
+        <field name="priority" eval="20"/>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+
+                    <group>
+                        <field name="name" required="1"/>
+                        <field name="image1" widget="image" class="oe_avatar oe_left"/>
+                        <field name="heading"/>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="dry_fruits_banner3_form" model="ir.ui.view">
+        <field name="name">dry.fruits.banner3.form</field>
+        <field name="model">offer.two</field>
+        <field name="priority" eval="20"/>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="image1" widget="image" class="oe_avatar oe_left"/>
+                        </group>
+                        <group>
+                            <field name="header"/>
+                            <field name="footer"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="dry_fruits_banner4_form" model="ir.ui.view">
+        <field name="name">dry.fruits.banner4.form</field>
+        <field name="model">half.banner</field>
+        <field name="priority" eval="20"/>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="image1" widget="image" class="oe_avatar oe_left"/>
+                        </group>
+                        <group>
+                            <field name="header"/>
+                            <field name="footer"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="dry_fruits_banner1_tree" model="ir.ui.view">
+        <field name="name">dry.fruits.banner1.tree</field>
+        <field name="model">home.banner</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="dry_fruits_banner2_tree" model="ir.ui.view">
+        <field name="name">dry.fruits.banner2.tree</field>
+        <field name="model">offer.one</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="dry_fruits_weekly_offer_tree" model="ir.ui.view">
+        <field name="name">dry.fruits.weekly.offer</field>
+        <field name="model">weekly.offer</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="dry_fruits_banner3_tree" model="ir.ui.view">
+        <field name="name">dry.fruits.banner3.tree</field>
+        <field name="model">offer.two</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="dry_fruits_banner4_tree" model="ir.ui.view">
+        <field name="name">dry.fruits.banner4.tree</field>
+        <field name="model">half.banner</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

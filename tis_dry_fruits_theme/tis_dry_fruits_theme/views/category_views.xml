@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="action_dry_fruits_category_views" model="ir.actions.act_window">
+        <field name="name">Product Category</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">dry.fruits.category</field>
+        <field name="view_mode">tree</field>
+        <field name="help" type="html">
+            <p>
+                Click to create Category
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem action="action_dry_fruits_category_views" id="products_category" name="Product Category"
+              parent="dry_fruits_theme_root" sequence="1"/>
+
+    <record id="bakery_category_tree" model="ir.ui.view">
+        <field name="name">dry.fruits.category.tree</field>
+        <field name="model">dry.fruits.category</field>
+        <field name="priority" eval="20"/>
+        <field name="arch" type="xml">
+
+            <tree editable="bottom">
+                <field name="category_id" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

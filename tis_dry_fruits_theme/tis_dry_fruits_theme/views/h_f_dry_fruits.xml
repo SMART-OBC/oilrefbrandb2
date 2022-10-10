@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+<!--        <template id="pharmacy_assets" inherit_id="website.assets_frontend" name="Website Assets">-->
+        <!--            <xpath expr="//link[last()]" position="after">-->
+        <!--                &lt;!&ndash;                <link rel="stylesheet" href="/tis_dry_fruits_theme/static/src/css/bootstrap.min.css"/>&ndash;&gt;-->
+        <!--                <link rel="stylesheet" href="/tis_dry_fruits_theme/static/src/css/owl.carousel.min.css"/>-->
+        <!--                <link rel="stylesheet" href="/tis_dry_fruits_theme/static/src/css/font-awesome.min.css"/>-->
+        <!--                <link rel="stylesheet" href="/tis_dry_fruits_theme/static/src/css/style.css"/>-->
+
+        <!--            </xpath>-->
+        <!--            <xpath expr="//script[last()]" position="after">-->
+        <!--                &lt;!&ndash;<script src="/tis_dry_fruits_theme/static/src/js/bootstrap.min.js"></script>&ndash;&gt;-->
+        <!--                <script src="/tis_dry_fruits_theme/static/src/js/owl.carousel.min.js"></script>-->
+        <!--                <script src="/tis_dry_fruits_theme/static/src/js/main.js"></script>-->
+        <!--            </xpath>-->
+        <!--        </template>-->
+        <template id="website_pharmacy_header" inherit_id="portal.frontend_layout" name="Website pharmacy Header">
+            <xpath expr="//header" position="replace">
+                <header class="">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <div class="container-fluid wrap">
+                            <a class="navbar-brand" href="/">
+                                <!--<img src="/tis_dry_fruits_theme/static/src/images/logo-heder.png"/>-->
+                                <span t-field="res_company.logo" t-options="{'widget': 'image'}"
+                                      t-att-alt="'Logo of %s' % res_company.name"
+                                      t-att-title="res_company.name"/>
+                            </a>
+
+                            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                    data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false"
+                                    aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse justify-content-between" id="navbarToggle">
+
+
+                                <ul class="navbar-nav ml-auto">
+                                    <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                                        <t t-call="website.submenu">
+                                            <t t-set="item_class" t-value="'nav-item'"/>
+                                            <t t-set="link_class" t-value="'nav-link'"/>
+                                        </t>
+                                    </t>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <button type="button" class="search" data-toggle="modal"
+                                                    data-target="#exampleModalCenter">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                <i class="fa fa-times-circle"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form method="get" action="/shop">
+                                                                <div class="input-group search-nav">
+                                                                    <input type="text"
+                                                                           name="search"
+                                                                           placeholder="Search Here"
+                                                                           class="search-query form-control oe_search_box"
+                                                                           t-att-value="search"/>
+                                                                    <div class="input-group-append">
+                                                                        <button type="submit"
+                                                                                class="site-btn btn btn-default oe_search_button">
+                                                                            <span class="input-group-text btn_search">
+                                                                                <i class="fa fa-search"></i>
+                                                                            </span>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <t t-set="website_sale_order" t-value="website.sale_get_order()"/>
+                                        <li class="nav-item divider d-none"/>
+                                        <li t-attf-class="nav-item o_wsale_my_cart #{'' if website_sale_order and website_sale_order.cart_quantity else 'd-none'}">
+                                            <a href="/shop/cart" class="nav-link cart">
+                                                <img src="/tis_dry_fruits_theme/static/src/images/cart.png"/>
+                                                <sup t-attf-class="my_cart_quantity badge badge-primary count"
+                                                     t-esc="website_sale_order and website_sale_order.cart_quantity or ''"/>
+                                            </a>
+                                        </li>
+                                    </li>
+                                    <li class="nav-item">
+                                        <t t-if="request.website.viewref('website_sale_wishlist.add_to_wishlist').active">
+                                            <t t-set='wishcount'
+                                               t-value="len(request.env['product.wishlist'].current())"/>
+                                            <li class="nav-item o_wsale_my_wish" style="display: inline-block;"
+                                                t-att-style="not wishcount">
+                                                <a href="/shop/wishlist" class="nav-link wishlist">
+                                                    <img src="/tis_dry_fruits_theme/static/src/images/wishlist.png"/>
+                                                    <sup t-attf-class="my_wish_quantity o_animate_blink badge badge-primary count">
+                                                        <t t-esc='wishcount'/>
+                                                    </sup>
+                                                </a>
+                                            </li>
+                                        </t>
+                                    </li>
+                                    <li class="nav-item language">
+                                        <ul class="js_language_selector mb0 list-inline lang_sel"
+                                            t-if="(request and request.is_frontend_multilang and len(languages) &gt; 1) or (website and (editable or translatable))">
+                                            <li class="list-inline-item">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-sm dropdown-toggle language_btn "
+                                                            style="color: #fff !important;"
+                                                            type="button"
+                                                            data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="true">
+                                                        <span t-esc="list(filter(lambda lg : lg[0] == lang, languages))[0][2].split('/').pop()"/>
+                                                        <span class="caret ml4"/>
+                                                    </button>
+                                                    <div class="dropdown-menu" role="menu"
+                                                         style="background-color:rgb(255, 255, 255);">
+                                                        <t t-foreach="languages" t-as="lg">
+                                                            <a t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang_code=lg[0])"
+                                                               class="dropdown-item js_change_lang"
+                                                               t-att-data-url_code="lg[1]">
+                                                                <t t-esc="lg[2].split('/').pop()"/>
+                                                            </a>
+                                                        </t>
+                                                        <t t-set="url_return"
+                                                           t-value="quote_plus(url_for('', '[lang]') + '?' + keep_query())"/>
+                                                        <a class="language_drop" style="color:#1f1515;"
+                                                           t-attf-href="/web#action=base.action_view_base_language_install&amp;website_id=#{website.id if website else ''}&amp;url_return=#{url_return}">
+                                                            <i class="fa fa-plus-circle"/>
+                                                            Add a language...
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item user">
+                                        <div class="authorization-link" data-label="or"
+                                             t-if="user_id._is_public()">
+                                            <a class="nav-link" href="/web/login" style="padding: 0 !important;">Sign
+                                                in
+                                            </a>
+                                        </div>
+                                        <div class="dropdown d-flex" t-ignore="true"
+                                             t-if="not user_id._is_public()">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="mr-2">
+                                                        <span t-esc="user_id.name[:23] + '...' if user_id.name and len(user_id.name) &gt; 25 else user_id.name"
+                                                              class="d-sm-inline"/>
+                                                        <span class="caret"></span>
+                                                    </p>
+                                                    <t t-if="user_id.image_256" t-set="avatar_source"
+                                                       t-value="image_data_uri(user_id.image_256)"/>
+                                                    <t t-else="" t-set="avatar_source"
+                                                       t-value="'/web/static/src/img/placeholder.png'"/>
+                                                    <img t-att-src="avatar_source"
+                                                         t-attf-class="rounded-circle #{_avatar_class}" width="24"
+                                                         height="24" alt="" loading="eager"/>
+                                                </div>
+                                            </a>
+                                            <ul class="dropdown-menu js_usermenu" role="menu">
+                                                <li class="dropdown-item">
+                                                    <a href="/my/home" role="menuitem">My Account</a>
+                                                </li>
+                                                <li class="dropdown-item" id="o_logout">
+                                                    <a t-attf-href="/web/session/logout?redirect=/"
+                                                       role="menuitem">
+                                                        Logout
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </header>
+            </xpath>
+        </template>
+
+
+        <template id="theme_footer_pharmacy" inherit_id="website.footer_custom" name="pharmacy Footer">
+            <xpath expr="//div[@id='footer']" position="replace">
+                <footer class="">
+                    <div class="container-fluid wrap">
+                        <div class="footer">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4">
+                                    <div class="ftr_logo">
+                                        <a href="/">
+                                            <img src="/tis_dry_fruits_theme/static/src/images/logo-footer.png"/>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-1 d-none d-lg-block"></div>
+                                <div class="col-md-2 col-6">
+                                    <h6>Company</h6>
+                                    <ul>
+                                        <li>
+                                            <a href="#">Home</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Service</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">FAQ</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Reviews</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Stories</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-2 col-6">
+                                    <h6>Explore</h6>
+                                    <ul>
+                                        <li>
+                                            <a href="#">Nuts</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Kiwi</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Cashew</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Apricots</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-2 col-6">
+                                    <h6>Get Strted</h6>
+                                    <ul>
+                                        <li>
+                                            <a href="#">Order Status</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Delivery</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Booking</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Reservation</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-2 col-6">
+                                    <h6>Links</h6>
+                                    <ul>
+                                        <li>
+                                            <a href="#">Home</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Best Selling</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Privacy</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Policy</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Terms</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Payment</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+
+            </xpath>
+        </template>
+
+        <template id="footer_copyright_pharmacy" inherit_id="website.layout" name="pharmacy Copyright">
+            <xpath expr="//div[hasclass('o_footer_copyright')]" position="replace">
+
+            </xpath>
+        </template>
+
+
+    </data>
+</odoo>
