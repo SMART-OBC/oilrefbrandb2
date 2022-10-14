@@ -203,10 +203,10 @@ class Sale(models.Model):
                 
                 if row1[0].value != '' and row1[0].value not in ['*********  NAF   *********','*********  Maestro   *********','*********  VISA   *********','*********  Maestro   *********','*********  VISA   *********']:
                     if float(row1[0].value) > 0:
-
+                        new_amount = row1[4].value.replace(',','')
                         payment = self.env['account.payment'].create({'payment_type' :'inbound',
                             'partner_id' : invoice.partner_id.id,
-                            'amount' : float(row1[4].value),
+                            'amount' : new_amount,
                             "ref" : invoice.name,
                             "journal_id":acc_jr_id.id})
                         payment.action_post()
