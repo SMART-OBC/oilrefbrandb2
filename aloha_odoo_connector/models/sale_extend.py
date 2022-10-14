@@ -179,10 +179,10 @@ class Sale(models.Model):
         order_line = []
         while new_curr_row < updated_num_rows:
             row1 = worksheet.row(new_curr_row)
-            if row1[0].value != ' ' and row1[0].value not in ["Total NA:","Check #","Total Maestro:","-------------","Total VISA:"]:
+            if row1[0].value != ' ' and row1[0].value not in ["Total NAF:","Check #","Total Maestro:","-------------","Total VISA:"]:
                 account_jr_obj = self.env['account.journal']
                 account_jr_id = account_jr_obj.search([('type','=','cash')],limit=1)
-                if row1[0].value == "*********  NA   *********":
+                if row1[0].value == "*********  NAF   *********":
                     jr_id = account_jr_id.search([('type','=','cash')],limit=1)
                     if jr_id:
                         acc_jr_id = jr_id
@@ -201,7 +201,7 @@ class Sale(models.Model):
                     else:
                         acc_jr_id = account_jr_id
                 
-                if row1[0].value != '' and row1[0].value not in ['*********  NA   *********','*********  Maestro   *********','*********  VISA   *********','*********  Maestro   *********','*********  VISA   *********']:
+                if row1[0].value != '' and row1[0].value not in ['*********  NAF   *********','*********  Maestro   *********','*********  VISA   *********','*********  Maestro   *********','*********  VISA   *********']:
                     if float(row1[0].value) > 0:
 
                         payment = self.env['account.payment'].create({'payment_type' :'inbound',

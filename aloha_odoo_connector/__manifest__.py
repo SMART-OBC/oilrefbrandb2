@@ -7,7 +7,7 @@
     ''',
     'description': ''' Aloha Odoo''',
     'category': 'Sales',
-    'version': '15.0.1.0.0',
+    'version': '15.0.1.0.1',
     'author': 'SMART Outsourcing & Business Consulting',
     'license': 'OPL-1',
     'website': 'http://www.smart-obc.com',
